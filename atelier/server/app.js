@@ -7,14 +7,16 @@ const FICHIERS = {
   '/': 'index.html',
   '/index.html': 'index.html',
   '/styles.css': 'styles.css',
-  '/js/app.js': 'js/app.js'
+  '/js/app.js': 'js/app.js',
+  '/js/brain.js': 'js/brain.js',
 };
 
 // MIME corrects pour chaque fichier servi.
 const TYPES = {
   'index.html': 'text/html; charset=utf-8',
   'styles.css': 'text/css; charset=utf-8',
-  'js/app.js': 'text/javascript; charset=utf-8'
+  'js/app.js': 'text/javascript; charset=utf-8',
+  'js/brain.js': 'text/javascript; charset=utf-8',
 };
 
 export function createApp({ publicDir, version = 'dev' } = {}) {
