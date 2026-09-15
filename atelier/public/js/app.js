@@ -14,6 +14,14 @@ formulaire?.addEventListener('submit', (event) => {
     champ.focus();
     return;
   }
+
+  const li = document.createElement('li');
+  li.textContent = "Vous : " + texte;
+  liste.append(li);
+
+  champ.value = '';
+  statut.textContent = '';
+  champ.focus();
 });
 
 // Version du serveur local, échec discret si indisponible.
