@@ -1,11 +1,12 @@
 import { validateMessage, replyTo } from './brain.js';
+import { renderMessages } from './view.js';
 const formulaire = document.querySelector('#chat-form');
 const statut = document.querySelector('#status');
 const versionElt = document.querySelector('#version');
 
 const champ = document.querySelector('#message');
 const liste = document.querySelector('#messages');
-
+const historique = [];
 // J1 : interface seule, on bloque l’envoi et on l’explique.
 formulaire?.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -17,14 +18,19 @@ formulaire?.addEventListener('submit', (event) => {
   }
 
   const texte = resultat.value;
+  historique.push({
+  role: 'user',
+  text: texte
+});
 
-  const li = document.createElement('li');
-  li.textContent = "Vous : " + texte;
-  liste.append(li);
+  const resultatReponse = replyTo(texte);
+  const reponse = resultatReponse.ok ? resultatReponse.value : resultatReponse.error;
+  historique.push({
+  role: 'assistant',
+  text: reponse
+});
 
-  const reponseLi = document.createElement('li');
-  reponseLi.textContent = "Cap Web : " + replyTo(texte).value;
-  liste.append(reponseLi);
+  renderMessages(historique, liste);
 
   champ.value = '';
   statut.textContent = '';
