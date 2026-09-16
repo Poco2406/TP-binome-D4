@@ -7,6 +7,30 @@ const versionElt = document.querySelector('#version');
 const champ = document.querySelector('#message');
 const liste = document.querySelector('#messages');
 const historique = [];
+const sauvegarde = localStorage.getItem('capweb.historique');
+const boutonEffacer = document.querySelector('#effacer');
+if (sauvegarde) {
+  try {
+    const donnees = JSON.parse(sauvegarde);
+    historique.push(...donnees);
+  } catch (erreur) {
+    statut.textContent = 'La conversation sauvegardée est invalide.';
+  }
+}
+
+renderMessages(historique, liste);
+
+boutonEffacer?.addEventListener('click', () => {
+if (!confirm('Voulez-vous vraiment effacer la conversation ?')) {
+  return;
+}
+
+historique.length = 0;
+localStorage.removeItem('capweb.historique');
+renderMessages(historique, liste);
+
+});
+
 // J1 : interface seule, on bloque l’envoi et on l’explique.
 formulaire?.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -31,6 +55,7 @@ formulaire?.addEventListener('submit', (event) => {
 });
 
   renderMessages(historique, liste);
+  localStorage.setItem('capweb.historique', JSON.stringify(historique));
 
   champ.value = '';
   statut.textContent = '';
